@@ -1,0 +1,72 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #121212;
+  color: white;
+}
+
+#countdown {
+  font-size: 60px;
+  margin: 100px;
+}
+
+.progress-container {
+  position: relative;
+  width: 80%;
+  height: 30px;
+  background-color: #333;
+  border-radius: 10px;
+  margin: 30px auto;
+  overflow: hidden;
+}
+
+.date-mark {
+  position: absolute;
+  font-size: 0.8em;
+  color: white;
+}
+
+.date-mark.start {
+  left: 0;
+  top: -20px;
+}
+
+.date-mark.end {
+  right: 0;
+  top: -20px;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: green;
+  width: 0%;
+  transition: width 0.5s ease, background-color 0.5s ease;
+}
+
+.markers {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: 20px auto;
+}
+
+.marker {
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+.red {
+  background-color: red;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.green {
+  background-color: green;
+}
