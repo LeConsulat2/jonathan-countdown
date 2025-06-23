@@ -1,53 +1,57 @@
-// Set the start and end date
+/* script.js */
+// Set up dates
 const startDate = new Date('2024-09-23');
 const endDate = new Date(startDate);
-endDate.setFullYear(endDate.getFullYear() + 1); // One year later
+endDate.setFullYear(endDate.getFullYear() + 1);
 
-const countdownElement = document.getElementById('countdown');
-const progressBar = document.getElementById('progress-bar');
+const countdownEl = document.getElementById('countdown');
+const radialBar = document.querySelector('.radial-bar');
+const CIRCUM = parseFloat(
+  getComputedStyle(document.documentElement).getPropertyValue(
+    '--circumference',
+  ),
+);
 
-// Time update every second
-function updateCountdown() {
+function update() {
   const now = new Date();
-  const totalSeconds = Math.floor((endDate - startDate) / 1000);
-  const remainingSeconds = Math.floor((endDate - now) / 1000);
+  let remSec = Math.floor((endDate - now) / 1000);
+  const totSec = Math.floor((endDate - startDate) / 1000);
 
-  if (remainingSeconds <= 0) {
-    clearInterval(countdownInterval);
-    countdownElement.textContent = "Time's up!";
-    progressBar.style.width = '100%';
-    progressBar.className = 'progress-bar red';
+  if (remSec <= 0) {
+    clearInterval(interval);
+    countdownEl.textContent = "Time's up!";
+    radialBar.style.strokeDashoffset = 0;
+    radialBar.style.filter = 'drop-shadow(0 0 20px rgba(194,91,91,0.8))';
     return;
   }
 
-  const days = Math.floor(remainingSeconds / (60 * 60 * 24));
-  const hours = Math.floor((remainingSeconds % (60 * 60 * 24)) / (60 * 60));
-  const minutes = Math.floor((remainingSeconds % (60 * 60)) / 60);
-  const seconds = remainingSeconds % 60;
+  // calculate days, hours, minutes, seconds
+  const d = Math.floor(remSec / 86400);
+  remSec %= 86400;
+  const h = Math.floor(remSec / 3600);
+  remSec %= 3600;
+  const m = Math.floor(remSec / 60);
+  const s = remSec % 60;
+  countdownEl.textContent = `${d}d ${h}h ${m}m ${s}s`;
 
-  // Update the countdown display
-  countdownElement.textContent = `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds remaining`;
+  // update radial progress
+  const elapsed = totSec - remSec;
+  const ratio = Math.min(1, elapsed / totSec);
+  const offset = CIRCUM * (1 - ratio);
+  radialBar.style.strokeDashoffset = offset;
 
-  // Calculate percentage and update progress bar width
-  const progressPercentage =
-    ((totalSeconds - remainingSeconds) / totalSeconds) * 100;
-  progressBar.style.width = `${progressPercentage}%`;
-
-  // Change progress bar color based on time remaining
-  const remainingMonths =
+  // change glow color by months left
+  const monthsLeft =
     (endDate.getFullYear() - now.getFullYear()) * 12 +
     (endDate.getMonth() - now.getMonth());
-
-  if (remainingMonths >= 10) {
-    progressBar.className = 'progress-bar red';
-  } else if (remainingMonths >= 7) {
-    progressBar.className = 'progress-bar orange';
-  } else if (remainingMonths >= 4) {
-    progressBar.className = 'progress-bar yellow';
-  } else {
-    progressBar.className = 'progress-bar green';
-  }
+  let glow;
+  if (monthsLeft >= 10) glow = 'rgba(194,91,91,0.8)';
+  else if (monthsLeft >= 7) glow = 'rgba(217,154,78,0.8)';
+  else if (monthsLeft >= 4) glow = 'rgba(230,203,111,0.8)';
+  else glow = 'rgba(125,174,141,0.8)';
+  radialBar.style.filter = `drop-shadow(0 0 15px ${glow})`;
 }
 
-// Update countdown every second
-const countdownInterval = setInterval(updateCountdown, 1000);
+// start interval
+const interval = setInterval(update, 1000);
+update();
