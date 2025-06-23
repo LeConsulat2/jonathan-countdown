@@ -1,72 +1,261 @@
+:root {
+  /* Define CSS variables for easier theming and consistency */
+  --bg-color: #1a1a2e; /* Darker background */
+  --text-color: #e0e0e0; /* Light grey text */
+  --primary-color: #0f4c75; /* A primary blue for accents */
+  --secondary-color: #3282b8; /* A lighter blue */
+  --font-family: 'Montserrat', sans-serif; /* Modern font */
+  --border-radius: 10px;
+  --transition-speed: 0.3s ease-in-out;
+}
+
+/* Import a modern font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: var(--font-family);
   text-align: center;
-  background-color: #121212;
-  color: white;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 20px;
+  line-height: 1.6;
+  min-height: 100vh; /* Ensure body takes full viewport height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box; /* Include padding in element's total width and height */
+}
+
+h1 {
+  font-size: clamp(1.5em, 5vw, 2.8em); /* Responsive font size */
+  margin-bottom: 40px;
+  color: var(--secondary-color);
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 #countdown {
-  font-size: 60px;
-  margin: 100px;
+  font-size: clamp(
+    2em,
+    8vw,
+    4em
+  ); /* Larger and more responsive countdown text */
+  margin: 50px 0;
+  font-weight: 600;
+  color: var(--text-color);
+  letter-spacing: 1px;
 }
 
+/* Progress Container */
 .progress-container {
   position: relative;
-  width: 80%;
-  height: 30px;
-  background-color: #333;
-  border-radius: 10px;
-  margin: 30px auto;
+  width: 90%; /* Wider on smaller screens */
+  max-width: 800px; /* Max width for larger screens */
+  height: 40px; /* Slightly taller for better visibility */
+  background-color: var(--primary-color);
+  border-radius: var(--border-radius);
+  margin: 40px auto 60px auto; /* More vertical spacing */
   overflow: hidden;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4); /* Inner shadow for depth */
 }
 
 .date-mark {
   position: absolute;
-  font-size: 0.8em;
-  color: white;
+  font-size: clamp(0.7em, 2vw, 0.9em); /* Responsive font size */
+  color: var(--text-color);
+  white-space: nowrap; /* Prevent date from wrapping */
+  font-weight: 400;
+  top: -25px; /* Adjust position */
 }
 
 .date-mark.start {
   left: 0;
-  top: -20px;
 }
 
 .date-mark.end {
   right: 0;
-  top: -20px;
 }
 
 .progress-bar {
   height: 100%;
-  background-color: green;
   width: 0%;
-  transition: width 0.5s ease, background-color 0.5s ease;
+  border-radius: var(--border-radius);
+  transition: width var(--transition-speed),
+    background-color var(--transition-speed);
+  background-color: green; /* Default */
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.5); /* Glowing effect */
 }
 
+/* Markers Section */
 .markers {
   display: flex;
   justify-content: space-between;
-  width: 80%;
+  width: 90%; /* Match progress container width */
+  max-width: 800px;
   margin: 20px auto;
+  position: relative; /* For positioning individual markers precisely */
+  z-index: 1; /* Ensure markers are above the progress bar visually if they overlap */
 }
 
 .marker {
-  font-size: 20px;
+  font-size: clamp(0.75em, 2.5vw, 1.1em); /* Responsive font size for markers */
+  flex-basis: 22%; /* Distribute space more evenly, allowing for content */
+  text-align: center;
   margin-top: 20px;
+  position: relative;
+  padding: 10px 5px;
+  color: var(--text-color);
+  font-weight: 300;
 }
 
-.red {
-  background-color: red;
+/* Add a visual line to connect markers to the progress bar (optional, but nice) */
+.marker::before {
+  content: '';
+  position: absolute;
+  top: -20px; /* Position above the marker text */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 15px; /* Length of the connecting line */
+  background-color: var(--secondary-color);
+  border-radius: 1px;
 }
 
-.orange {
-  background-color: orange;
+/* Specific positioning for markers relative to the progress bar */
+/* These values are estimates and might need fine-tuning based on your exact layout */
+.markers .marker:nth-child(1) {
+  /* 3 Months */
+  position: absolute;
+  left: calc(25% - (var(--marker-width, 0px) / 2)); /* Approx 3 months of 12 */
+  top: -60px; /* Adjust based on your layout */
 }
 
-.yellow {
-  background-color: yellow;
+.markers .marker:nth-child(2) {
+  /* 6 Months */
+  position: absolute;
+  left: calc(50% - (var(--marker-width, 0px) / 2)); /* Approx 6 months of 12 */
+  top: -60px; /* Adjust based on your layout */
 }
 
-.green {
-  background-color: green;
+.markers .marker:nth-child(3) {
+  /* 9 Months */
+  position: absolute;
+  left: calc(75% - (var(--marker-width, 0px) / 2)); /* Approx 9 months of 12 */
+  top: -60px; /* Adjust based on your layout */
+}
+
+.markers .marker:nth-child(4) {
+  /* 12 Months */
+  position: absolute;
+  right: 0;
+  top: -60px; /* Adjust based on your layout */
+}
+
+/* Define --marker-width for dynamic positioning (requires JS or manual estimation) */
+/* For simplicity here, we'll assume a rough width or let content dictate it for now.
+   A more advanced approach might involve JavaScript to measure marker width for precise positioning.
+   For now, the percentage based `left` with `transformX` is a good starting point.
+*/
+body {
+  --marker-width: 120px; /* Example estimated width, adjust as needed */
+}
+
+/* Color classes for the progress bar */
+.progress-bar.red {
+  background-color: #e74c3c; /* Flat UI Red */
+  box-shadow: 0 0 15px rgba(231, 76, 60, 0.7);
+}
+
+.progress-bar.orange {
+  background-color: #f39c12; /* Flat UI Orange */
+  box-shadow: 0 0 15px rgba(243, 156, 18, 0.7);
+}
+
+.progress-bar.yellow {
+  background-color: #f1c40f; /* Flat UI Yellow */
+  box-shadow: 0 0 15px rgba(241, 196, 15, 0.7);
+}
+
+.progress-bar.green {
+  background-color: #2ecc71; /* Flat UI Green */
+  box-shadow: 0 0 15px rgba(46, 204, 113, 0.7);
+}
+
+/* Media Queries for fine-tuning responsiveness */
+
+/* For Tablets and smaller desktops */
+@media (min-width: 768px) {
+  h1 {
+    font-size: 3em;
+  }
+  #countdown {
+    font-size: 5em;
+  }
+  .progress-container {
+    height: 50px; /* Slightly taller on larger screens */
+  }
+  .date-mark {
+    font-size: 1em;
+    top: -30px;
+  }
+  .marker {
+    font-size: 1.2em;
+    padding: 15px 10px;
+  }
+  .marker::before {
+    height: 20px;
+    top: -25px;
+  }
+}
+
+/* For very large screens */
+@media (min-width: 1200px) {
+  body {
+    padding: 50px;
+  }
+  h1 {
+    font-size: 3.5em;
+  }
+  #countdown {
+    font-size: 6em;
+  }
+  .progress-container {
+    height: 60px;
+    max-width: 1000px; /* Even wider progress bar */
+  }
+  .date-mark {
+    font-size: 1.1em;
+  }
+  .marker {
+    font-size: 1.3em;
+  }
+}
+
+/* Utility classes for accessibility and layout */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Optional: Add a subtle animation for background */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+body {
+  animation: fadeIn 1s ease-in-out;
 }
