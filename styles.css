@@ -1,236 +1,208 @@
-/* Import Fonts: A warm, elegant serif for headings and a clean sans-serif for body */
+/* 1) Fonts & base imports */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
-  /* Warm & Advanced Color Palette */
-  --bg-dark: #2c211e; /* Deep dark brown/charcoal for background */
-  --bg-light: #3e332f; /* Slightly lighter brown for containers */
-  --text-primary: #f2e9e4; /* Off-white/cream for main text */
-  --text-secondary: #c9b19e; /* Muted gold/tan for secondary text/accents */
-  --accent-warm: #d4a373; /* Goldenrod/ochre for highlights */
-  --accent-subtle: #a68a64; /* A deeper, muted gold */
+  /* — Color Palette — */
+  --bg-dark: #2c211e;
+  --bg-light: #3e332f;
+  --text-primary: #f2e9e4;
+  --text-secondary: #c9b19e;
+  --accent-warm: #d4a373;
+  --accent-subtle: #a68a64;
 
-  /* Progress Bar Colors (warm variations) */
-  --progress-red: #c25b5b; /* Muted red */
-  --progress-orange: #d99a4e; /* Burnt orange */
-  --progress-yellow: #e6cb6f; /* Muted mustard */
-  --progress-green: #7dae8d; /* Sage green */
+  /* — Progress Colors — */
+  --progress-red: #c25b5b;
+  --progress-orange: #d99a4e;
+  --progress-yellow: #e6cb6f;
+  --progress-green: #7dae8d;
 
-  /* Fonts */
+  /* — Typography — */
   --font-heading: 'Playfair Display', serif;
   --font-body: 'Inter', sans-serif;
 
-  /* Spacing & Sizing */
-  --padding-base: 20px;
-  --border-radius-lg: 15px;
-  --border-radius-sm: 8px;
+  /* — Spacing — */
+  --pad-base: 20px;
+  --radius-sm: 8px;
+  --radius-lg: 15px;
 
-  /* Transitions */
-  --transition-fast: 0.3s ease-in-out;
-  --transition-medium: 0.5s ease-in-out;
+  /* — Transition Durations — */
+  --t-fast: 0.3s ease-in-out;
+  --t-med: 0.5s ease-in-out;
+}
+
+/* 2) Global styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
-  font-family: var(--font-body);
-  text-align: center;
-  background: linear-gradient(
-    135deg,
-    var(--bg-dark),
-    #1e1715
-  ); /* Subtle gradient for depth */
-  color: var(--text-primary);
   margin: 0;
-  padding: var(--padding-base);
-  line-height: 1.6;
+  padding: var(--pad-base);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-sizing: border-box;
-  overflow-x: hidden; /* Prevent horizontal scroll on small screens */
-  animation: fadeIn 1.2s ease-out forwards; /* Slower fade in */
+  font-family: var(--font-body);
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: linear-gradient(135deg, var(--bg-dark), #1e1715);
+  text-align: center;
+  overflow-x: hidden;
+  animation: fadeIn 1.2s ease-out forwards;
 }
 
 h1 {
   font-family: var(--font-heading);
-  font-size: clamp(2em, 6vw, 3.5em); /* Larger and more elegant */
-  margin-bottom: 30px;
+  font-weight: 700;
   color: var(--accent-warm);
-  font-weight: 700;
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Deeper shadow */
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   letter-spacing: 1px;
+  margin-bottom: 30px;
+  font-size: clamp(2em, 6vw, 3.5em);
 }
 
-h1 br {
-  /* Adjust line break spacing for the title */
+h1 span.subtitle {
   display: block;
-  margin-bottom: 5px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  color: var(--text-secondary);
+  font-size: clamp(1em, 3vw, 1.2em);
+  margin-top: 10px;
 }
 
+/* Countdown text */
 #countdown {
-  font-family: var(--font-heading); /* Use heading font for countdown too */
-  font-size: clamp(2.5em, 9vw, 5em);
-  margin: 60px 0;
+  font-family: var(--font-heading);
   font-weight: 700;
-  color: var(--text-primary);
   letter-spacing: 2px;
   text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  position: relative; /* For potential future animations */
-  animation: pulseText 2s infinite alternate ease-in-out; /* Subtle pulse */
+  font-size: clamp(2.5em, 9vw, 5em);
+  margin: 60px 0;
+  animation: pulseText 2s infinite alternate ease-in-out;
 }
 
-/* Progress Container */
+/* 3) Progress bar container */
 .progress-container {
   position: relative;
   width: 90%;
-  max-width: 900px; /* Slightly wider max-width */
-  height: 45px; /* Taller */
-  background: var(--bg-light); /* Lighter background for the track */
-  border-radius: var(--border-radius-lg);
-  margin: 50px auto 70px auto;
+  max-width: 900px;
+  height: 45px;
+  background: var(--bg-light);
+  border-radius: var(--radius-lg);
+  margin: 50px auto 70px;
   overflow: hidden;
-  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5),
-    /* Inner shadow */ 0 5px 15px rgba(0, 0, 0, 0.3); /* Outer shadow */
-  border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
-}
-
-.date-mark {
-  position: absolute;
-  font-family: var(--font-body);
-  font-size: clamp(0.7em, 2vw, 0.9em);
-  color: var(--text-secondary);
-  white-space: nowrap;
-  font-weight: 400;
-  top: -30px; /* Adjusted position */
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.date-mark.start {
-  left: 0;
-}
-
-.date-mark.end {
-  right: 0;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .progress-bar {
   height: 100%;
-  width: 0%;
-  border-radius: var(--border-radius-lg);
-  background: linear-gradient(
-    90deg,
-    #7dae8d,
-    #a6d4b4
-  ); /* Default green gradient */
-  transition: width var(--transition-medium),
-    background var(--transition-medium);
-  box-shadow: 0 0 20px rgba(125, 174, 141, 0.7); /* Matching glow */
-  animation: progressGlow 1.5s infinite alternate; /* Subtle glow animation */
+  width: 0;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(90deg, var(--progress-green), #a6d4b4);
+  transition: width var(--t-med), background var(--t-med);
+  box-shadow: 0 0 20px rgba(125, 174, 141, 0.7);
+  animation: progressGlow 1.5s infinite alternate;
 }
 
-/* Markers Section */
+/* Date labels */
+.date-mark {
+  position: absolute;
+  top: -30px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: clamp(0.7em, 2vw, 0.9em);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.date-mark.start {
+  left: 0;
+}
+.date-mark.end {
+  right: 0;
+}
+
+/* 4) Markers */
 .markers {
-  display: flex;
-  justify-content: space-between;
+  position: relative;
   width: 90%;
   max-width: 900px;
+  height: 120px; /* room for labels */
   margin: 20px auto;
-  position: relative;
-  z-index: 1;
-  /* We'll use absolute positioning for markers relative to the progress bar later */
-  /* For now, ensure container for absolute markers is broad enough */
-  height: 120px; /* Give space for absolutely positioned markers */
 }
 
 .marker {
+  position: absolute;
+  transform: translateX(-50%);
   font-family: var(--font-body);
-  font-size: clamp(0.8em, 2.5vw, 1em); /* Slightly smaller, more refined */
-  flex-basis: 22%; /* Remains useful for non-absolute fallback */
-  text-align: center;
-  position: absolute; /* Make markers absolutely positioned */
-  transform: translateX(-50%); /* Center based on their own width */
-  color: var(--text-secondary);
   font-weight: 400;
+  font-size: clamp(0.8em, 2.5vw, 1em);
+  color: var(--text-secondary);
+  text-align: center;
+  max-width: 150px;
   line-height: 1.4;
-  max-width: 150px; /* Limit width of marker text */
-  opacity: 0; /* Hidden by default, will fade in via JS or advanced CSS */
-  animation: fadeInScale 0.8s forwards; /* Animation to show them */
-  animation-delay: var(--marker-delay); /* Staggered reveal */
-  background: rgba(var(--bg-light), 0.7); /* Slightly transparent background */
-  backdrop-filter: blur(5px); /* Subtle blur behind text */
+  background: rgba(62, 51, 47, 0.7);
+  backdrop-filter: blur(5px);
   padding: 8px 12px;
-  border-radius: var(--border-radius-sm);
+  border-radius: var(--radius-sm);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* Specific positioning for markers relative to the progress-container */
-/* These positions are calculated relative to the parent .markers container, which
-   itself is centered and has a max-width, making them responsive.
-   The `left` value should correspond to 25%, 50%, 75%, 100% of the progress bar.
-*/
-.markers .marker:nth-child(1) {
-  /* 3 Months */
-  left: 25%;
-  --marker-delay: 0.1s;
-}
-
-.markers .marker:nth-child(2) {
-  /* 6 Months */
-  left: 50%;
-  --marker-delay: 0.3s;
-}
-
-.markers .marker:nth-child(3) {
-  /* 9 Months */
-  left: 75%;
-  --marker-delay: 0.5s;
-}
-
-.markers .marker:nth-child(4) {
-  /* 12 Months */
-  left: 100%; /* Align with the very end */
-  transform: translateX(-100%); /* Align right edge with 100% mark */
-  --marker-delay: 0.7s;
+  opacity: 0;
+  animation: fadeInScale 0.8s forwards;
+  animation-delay: var(--delay);
 }
 
 .marker::before {
-  /* Connecting line */
   content: '';
   position: absolute;
-  bottom: -20px; /* Position below the marker text */
+  bottom: -20px;
   left: 50%;
   transform: translateX(-50%);
   width: 2px;
   height: 15px;
-  background-color: var(--accent-subtle);
+  background: var(--accent-subtle);
   border-radius: 1px;
   opacity: 0.7;
 }
 
-/* Color classes for the progress bar - now with gradients and adjusted glows */
+/* Position & delay */
+.marker:nth-child(1) {
+  left: 25%;
+  --delay: 0.1s;
+}
+.marker:nth-child(2) {
+  left: 50%;
+  --delay: 0.3s;
+}
+.marker:nth-child(3) {
+  left: 75%;
+  --delay: 0.5s;
+}
+.marker:nth-child(4) {
+  left: 100%;
+  transform: translateX(-100%);
+  --delay: 0.7s;
+}
+
+/* 5) Progress color variants */
 .progress-bar.red {
   background: linear-gradient(90deg, var(--progress-red), #e07a7a);
-  box-shadow: 0 0 20px rgba(var(--progress-red), 0.7);
+  box-shadow: 0 0 20px rgba(194, 91, 91, 0.7);
 }
-
 .progress-bar.orange {
   background: linear-gradient(90deg, var(--progress-orange), #ffb76e);
-  box-shadow: 0 0 20px rgba(var(--progress-orange), 0.7);
+  box-shadow: 0 0 20px rgba(217, 154, 78, 0.7);
 }
-
 .progress-bar.yellow {
   background: linear-gradient(90deg, var(--progress-yellow), #ffe78b);
-  box-shadow: 0 0 20px rgba(var(--progress-yellow), 0.7);
+  box-shadow: 0 0 20px rgba(230, 203, 111, 0.7);
 }
 
-.progress-bar.green {
-  background: linear-gradient(90deg, var(--progress-green), #a6d4b4);
-  box-shadow: 0 0 20px rgba(var(--progress-green), 0.7);
-}
-
-/* Keyframe Animations */
+/* 6) Keyframes */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -241,7 +213,6 @@ h1 br {
     transform: translateY(0);
   }
 }
-
 @keyframes pulseText {
   0% {
     transform: scale(1);
@@ -252,19 +223,15 @@ h1 br {
     text-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
   }
 }
-
 @keyframes progressGlow {
-  0% {
+  0%,
+  100% {
     filter: brightness(1);
   }
   50% {
     filter: brightness(1.2);
   }
-  100% {
-    filter: brightness(1);
-  }
 }
-
 @keyframes fadeInScale {
   from {
     opacity: 0;
@@ -276,16 +243,32 @@ h1 br {
   }
 }
 
-/* Media Queries for refined responsiveness */
+/* 7) Responsive Breakpoints */
+/* — sm:  640px —*/
+@media (min-width: 640px) {
+  body {
+    padding: 30px;
+  }
+  .progress-container {
+    height: 50px;
+  }
+  .date-mark {
+    top: -35px;
+  }
+  .marker {
+    top: -90px;
+    font-size: 1em;
+  }
+}
 
-/* Tablets and medium screens */
+/* — md:  768px —*/
 @media (min-width: 768px) {
   body {
     padding: 40px;
   }
   h1 {
-    font-size: 4em;
     margin-bottom: 40px;
+    font-size: 4em;
   }
   #countdown {
     font-size: 6em;
@@ -293,22 +276,16 @@ h1 br {
   }
   .progress-container {
     height: 55px;
-    margin: 60px auto 80px auto;
-  }
-  .date-mark {
-    font-size: 1em;
-    top: -35px;
+    margin: 60px auto 80px;
   }
   .marker {
+    top: -100px;
     font-size: 1.1em;
     padding: 10px 15px;
-    top: -100px; /* Adjust vertical position for markers */
   }
   .marker:nth-child(4) {
-    /* 12 Months */
-    transform: translateX(-50%); /* Revert to center align on larger screens */
-    right: auto; /* Remove right property */
-    left: 100%; /* Align with the end */
+    left: 100%;
+    transform: translateX(-50%);
   }
   .marker::before {
     height: 20px;
@@ -316,47 +293,62 @@ h1 br {
   }
 }
 
-/* Larger screens */
-@media (min-width: 1200px) {
+/* — lg: 1024px —*/
+@media (min-width: 1024px) {
+  h1 {
+    font-size: 4.5em;
+  }
+  #countdown {
+    font-size: 6.5em;
+  }
+  .progress-container {
+    max-width: 1000px;
+    height: 60px;
+  }
+}
+
+/* — xl: 1280px —*/
+@media (min-width: 1280px) {
   body {
-    padding: 60px;
+    padding: 50px;
   }
   h1 {
-    font-size: 4.8em;
+    font-size: 5.2em;
   }
   #countdown {
     font-size: 7em;
   }
   .progress-container {
     height: 65px;
-    max-width: 1000px;
-  }
-  .date-mark {
-    font-size: 1.1em;
   }
   .marker {
+    top: -110px;
     font-size: 1.2em;
     max-width: 180px;
-    top: -110px; /* Further adjust for very large screens */
   }
 }
 
-/* Ensure consistent absolute positioning logic for markers across breakpoints */
-/* This block ensures that if a general 'left' is set, it's consistent. */
-.markers .marker {
-  top: -90px; /* Default vertical position for markers, adjust per breakpoint */
-}
-
-/* Specific adjustments for 12-month marker if it goes off screen */
-@media (max-width: 767px) {
-  .markers .marker:nth-child(4) {
-    transform: translateX(
-      -100%
-    ); /* Keeps right edge aligned on small screens */
+/* — 2xl: 1536px —*/
+@media (min-width: 1536px) {
+  body {
+    padding: 60px;
+  }
+  h1 {
+    font-size: 6em;
+  }
+  #countdown {
+    font-size: 8em;
+  }
+  .progress-container {
+    max-width: 1100px;
+    height: 70px;
+  }
+  .marker {
+    top: -120px;
   }
 }
 
-/* Accessibility */
+/* 8) Utility (screen-reader only) */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -366,5 +358,5 @@ h1 br {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
-  border-width: 0;
+  border: 0;
 }
